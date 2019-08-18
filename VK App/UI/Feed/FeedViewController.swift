@@ -14,7 +14,8 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = #colorLiteral(red: 0.1294117719, green: 0.2156862766, blue: 0.06666667014, alpha: 1)
-        NetworkService.shared.getData(with: .getFeed, type: Feed.self) { (feed, error) in
+        NetworkService.shared.getData(with: .getFeed, type: FeedResponseWrapped.self) { (feed, error) in
+            print(feed)
         }
     }
 }

@@ -61,6 +61,10 @@ final class NetworkService: NetworkServiceProtocol {
     }
     
     private func parse<T: Decodable>(with type: T.Type, from data: Data) -> T? {
-        return try? JSONDecoder().decode(type, from: data)
+        let jsonDecoder = JSONDecoder()
+        
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        return try? jsonDecoder.decode(type, from: data)
     }
 }
