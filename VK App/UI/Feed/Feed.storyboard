@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="3Rc-ct-ZZd">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="OOq-GI-hhX">
     <device id="retina6_1" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -11,19 +11,38 @@
     </dependencies>
     <scenes>
         <!--Feed View Controller-->
-        <scene sceneID="2jW-H4-0HW">
+        <scene sceneID="5at-1b-ZZg">
             <objects>
-                <viewController id="3Rc-ct-ZZd" customClass="FeedViewController" customModule="VK_App" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="dU2-zG-0YH">
+                <viewController id="OOq-GI-hhX" customClass="FeedViewController" customModule="VK_App" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NsR-sX-fCL">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="FdT-Lj-nC6">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="OOq-GI-hhX" id="mwP-vW-YeY"/>
+                                    <outlet property="delegate" destination="OOq-GI-hhX" id="IOU-jq-wvZ"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <viewLayoutGuide key="safeArea" id="Xoh-sW-qoc"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="FdT-Lj-nC6" secondAttribute="bottom" id="LrD-ww-vW8"/>
+                            <constraint firstItem="FdT-Lj-nC6" firstAttribute="top" secondItem="T6L-vy-6me" secondAttribute="top" id="anh-Ep-DhE"/>
+                            <constraint firstItem="T6L-vy-6me" firstAttribute="trailing" secondItem="FdT-Lj-nC6" secondAttribute="trailing" id="c0o-cy-1es"/>
+                            <constraint firstItem="FdT-Lj-nC6" firstAttribute="leading" secondItem="T6L-vy-6me" secondAttribute="leading" id="wmf-8Z-xjs"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="T6L-vy-6me"/>
                     </view>
+                    <connections>
+                        <outlet property="tableView" destination="FdT-Lj-nC6" id="Z5i-Dl-ymI"/>
+                    </connections>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="uId-Qg-0sX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RCl-gy-hgC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="229" y="153"/>
+            <point key="canvasLocation" x="-29" y="94"/>
         </scene>
     </scenes>
 </document>

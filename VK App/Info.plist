@@ -23,7 +23,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>vk7101354</string>
+				<string>&quot;YOUR_APP_ID&quot;</string>
 			</array>
 		</dict>
 	</array>

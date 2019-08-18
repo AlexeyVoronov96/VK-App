@@ -7,4 +7,5 @@ target 'VK App' do
 
   # Pods for VK App
   pod "VK-ios-sdk"
+  pod "Kingfisher"
 end
