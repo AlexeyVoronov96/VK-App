@@ -1,0 +1,11 @@
+.DS_Store
+VK App.xcodeproj/project.xcworkspace/xcuserdata
+Pods
+VK App.xcworkspace
+Podfile.lock
+VK App.xcodeproj/xcuserdata
+VK App.app.dSYM.zip
+VK App.ipa
+fastlane
+Gemfile.lock
+output
