@@ -14,6 +14,7 @@ protocol FeedCellViewModel {
     var name: String { get }
     var date: String { get }
     var text: String? { get }
+    var photoAttachement: FeedCellPhotoAttachementViewModel? { get }
     var likes: String? { get }
     var comments: String? { get }
     var shares: String? { get }
@@ -34,6 +35,7 @@ class FeedCell: UITableViewCell {
     @IBOutlet private var dateLabel: UILabel!
     
     @IBOutlet private var postTextLabel: UILabel!
+    @IBOutlet private var postImageView: UIImageView!
     
     @IBOutlet private var likesLabel: UILabel!
     @IBOutlet private var commentsLabel: UILabel!
@@ -46,10 +48,12 @@ class FeedCell: UITableViewCell {
     
     func set(_ viewModel: FeedCellViewModel) {
         resourceIconImageView.kf.setImage(with: URL(string: viewModel.iconURLString))
-        
         resourceNameLabel.text = viewModel.name
         dateLabel.text = viewModel.date
+        
         postTextLabel.text = viewModel.text
+        postImageView.kf.setImage(with: URL(string: viewModel.photoAttachement?.photoURLString ?? ""))
+        
         likesLabel.text = viewModel.likes
         commentsLabel.text = viewModel.comments
         sharesLabel.text = viewModel.shares
