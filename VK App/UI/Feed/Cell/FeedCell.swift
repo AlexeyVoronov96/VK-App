@@ -52,7 +52,14 @@ class FeedCell: UITableViewCell {
         dateLabel.text = viewModel.date
         
         postTextLabel.text = viewModel.text
-        postImageView.kf.setImage(with: URL(string: viewModel.photoAttachement?.photoURLString ?? ""))
+        if let imageUrlString = viewModel.photoAttachement?.photoURLString {
+            postImageView.isHidden = false
+            postImageView.kf.indicatorType = .activity
+            postImageView.kf.setImage(with: URL(string:  imageUrlString))
+        } else {
+            postImageView.isHidden = true
+        }
+        
         
         likesLabel.text = viewModel.likes
         commentsLabel.text = viewModel.comments

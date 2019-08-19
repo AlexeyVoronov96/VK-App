@@ -24,7 +24,7 @@ struct FeedItem: Decodable {
     let postId: Int
     let text: String?
     let date: Double
-    let attachements: Attachements?
+    let attachments: Attachments?
     let comments: CountableItem?
     let likes: CountableItem?
     let reposts: CountableItem?
@@ -64,7 +64,7 @@ struct Group: Decodable, ProfileRepresantable {
     }
 }
 
-typealias Attachements = [Attachement]
+typealias Attachments = [Attachement]
 struct Attachement: Decodable {
     let photo: Photo?
 }
