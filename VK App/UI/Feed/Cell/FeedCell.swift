@@ -20,13 +20,14 @@ protocol FeedCellViewModel {
     var views: String? { get }
 }
 
+protocol FeedCellPhotoAttachementViewModel {
+    var photoURLString: String { get }
+    var width: Int { get }
+    var height: Int { get }
+}
+
 class FeedCell: UITableViewCell {
     static let reuseIdentifier: String = "FeedCell"
-    
-    var feedItem: FeedItem? {
-        didSet {
-        }
-    }
     
     @IBOutlet private var resourceIconImageView: UIImageView!
     @IBOutlet private var resourceNameLabel: UILabel!

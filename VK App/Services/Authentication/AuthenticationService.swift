@@ -16,7 +16,7 @@ protocol AuthenticationServiceDelegate: class {
 }
 
 final class AuthenticationService: NSObject {
-    private let appId: String = "YOUR_APP_ID"
+    private let appId: String = "7101354"
     private let vkSDK: VKSdk
     
     weak var delegate: AuthenticationServiceDelegate?
