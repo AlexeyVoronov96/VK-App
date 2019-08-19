@@ -50,7 +50,7 @@ final class NetworkService: NetworkServiceProtocol {
         guard let url = components.url else {
             return nil
         }
-        print(url.absoluteString)
+        
         return URLRequest(url: url)
     }
     
