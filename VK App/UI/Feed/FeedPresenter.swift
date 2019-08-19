@@ -15,6 +15,8 @@ protocol FeedPresentationLogic {
 class FeedPresenter: FeedPresentationLogic {
     weak var viewController: FeedDisplayLogic?
     
+    var cellLayoutCalculator: FeedCellLayoutCalculatorProtocol = FeedCellLayoutCalculator()
+    
     private var dateFormatter: DateFormatter {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "d MMM 'at' HH:mm"
@@ -37,7 +39,9 @@ class FeedPresenter: FeedPresentationLogic {
         let profile = setupProfile(for: feedItem.sourceId, from: profiles, and: groups)
         let date = Date(timeIntervalSince1970: feedItem.date)
         let dateString = dateFormatter.string(from: date)
-        let photoAttachments = setupPhotoAttachement(from: feedItem)
+        let photoAttachment = setupPhotoAttachement(from: feedItem)
+        
+        let sizes = cellLayoutCalculator.calculateSizes(postText: feedItem.text, photoAttachment: photoAttachment)
         
         return FeedViewModel.Cell(iconURLString: profile?.photo ?? "",
                                   name: profile?.name ?? "",
@@ -47,7 +51,8 @@ class FeedPresenter: FeedPresentationLogic {
                                   comments: String(feedItem.comments?.count ?? 0),
                                   shares: String(feedItem.reposts?.count ?? 0),
                                   views: String(feedItem.views?.count ?? 0),
-                                  photoAttachement: photoAttachments)
+                                  photoAttachement: photoAttachment,
+                                  sizes: sizes)
     }
     
     private func setupProfile(for sourceId: Int, from profiles: Profiles, and groups: Groups) -> ProfileRepresantable? {

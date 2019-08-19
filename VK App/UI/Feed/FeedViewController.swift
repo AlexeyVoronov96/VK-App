@@ -61,8 +61,9 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.register(UINib(nibName: "FeedCell", bundle: nil),
-                           forCellReuseIdentifier: FeedCell.reuseIdentifier)
+        tableView.separatorStyle = .none
+        
+        tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseId)
         
         interactor?.makeRequest(request: .getNewsFeed)
     }
@@ -81,7 +82,7 @@ extension FeedViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseIdentifier, for: indexPath) as! FeedCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedCell.reuseId, for: indexPath) as! FeedCell
         let cellViewModel = feedViewModel.cells[indexPath.row]
         cell.set(cellViewModel)
         return cell
@@ -90,6 +91,7 @@ extension FeedViewController: UITableViewDataSource {
 
 extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
+        let cellViewModel = feedViewModel.cells[indexPath.row]
+        return cellViewModel.sizes.totalHeight
     }
 }
