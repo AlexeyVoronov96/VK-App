@@ -6,10 +6,17 @@
 //  Copyright © 2019 Алексей Воронов. All rights reserved.
 //
 
+import Kingfisher
 import UIKit
+
+protocol FeedCellDelegate: class {
+    func revealPost(for cell: FeedCell)
+}
 
 final class FeedCell: UITableViewCell {
     static let reuseId = "FeedCell"
+    
+    weak var delegate: FeedCellDelegate?
     
     private let cardView: UIView = {
         let view = UIView()
@@ -51,6 +58,16 @@ final class FeedCell: UITableViewCell {
         label.numberOfLines = 0
         label.font = Constants.postLabelFont
         return label
+    }()
+    
+    private let moreTextButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        button.setTitleColor(#colorLiteral(red: 0.4, green: 0.6235294118, blue: 0.831372549, alpha: 1), for: .normal)
+        button.contentHorizontalAlignment = .left
+        button.contentVerticalAlignment = .center
+        button.setTitle("Показать полностью...", for: .normal)
+        return button
     }()
     
     private let postImageView: UIImageView = {
@@ -165,12 +182,18 @@ final class FeedCell: UITableViewCell {
         resourceIconImageView.layer.cornerRadius = Constants.topViewHeight / 2
         resourceIconImageView.clipsToBounds = true
         
+        moreTextButton.addTarget(self, action: #selector(moreTextButtonAction), for: .touchUpInside)
+        
         overlayFirstLayer()
         overlayCardView()
         
         overlayTopView()
         overlayBottomView()
         overlayCountViews()
+    }
+    
+    @objc private func moreTextButtonAction(_ sender: UIButton) {
+        delegate?.revealPost(for: self)
     }
     
     private func overlayFirstLayer() {
@@ -192,6 +215,7 @@ final class FeedCell: UITableViewCell {
         
         cardView.addSubview(postTextLabel)
         cardView.addSubview(postImageView)
+        cardView.addSubview(moreTextButton)
         
         cardView.addSubview(bottomView)
     }
@@ -277,6 +301,8 @@ final class FeedCell: UITableViewCell {
         
         postTextLabel.text = viewModel.text
         postTextLabel.frame = viewModel.sizes.postLabelFrame
+        
+        moreTextButton.frame = viewModel.sizes.moreTextButtonFrame
         
         if let imageUrlString = viewModel.photoAttachement?.photoURLString {
             postImageView.kf.indicatorType = .activity

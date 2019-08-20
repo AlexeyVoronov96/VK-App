@@ -26,24 +26,29 @@ class FeedPresenter: FeedPresentationLogic {
     
     func presentData(response: Feed.Model.Response.ResponseType) {
         switch response {
-        case let .present(feed):
+        case let .present(feed, revealedPostIds):
             let cells = feed.items.map { (feedItem) in
-                setupCellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups)
+                setupCellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealedPostIds: revealedPostIds)
             }
             let feedViewModel = FeedViewModel(cells: cells)
             viewController?.displayData(viewModel: .display(feed: feedViewModel))
         }
     }
     
-    private func setupCellViewModel(from feedItem: FeedItem, profiles: Profiles, groups: Groups) -> FeedViewModel.Cell {
+    private func setupCellViewModel(from feedItem: FeedItem, profiles: Profiles, groups: Groups, revealedPostIds: [Int]) -> FeedViewModel.Cell {
         let profile = setupProfile(for: feedItem.sourceId, from: profiles, and: groups)
         let date = Date(timeIntervalSince1970: feedItem.date)
         let dateString = dateFormatter.string(from: date)
         let photoAttachment = setupPhotoAttachement(from: feedItem)
         
-        let sizes = cellLayoutCalculator.calculateSizes(postText: feedItem.text, photoAttachment: photoAttachment)
+        let isFullSized = revealedPostIds.contains { (postId) -> Bool in
+            return postId == feedItem.postId
+        }
         
-        return FeedViewModel.Cell(iconURLString: profile?.photo ?? "",
+        let sizes = cellLayoutCalculator.calculateSizes(postText: feedItem.text, photoAttachment: photoAttachment, isFullSized: isFullSized)
+        
+        return FeedViewModel.Cell(postId: feedItem.postId,
+                                  iconURLString: profile?.photo ?? "",
                                   name: profile?.name ?? "",
                                   date: dateString,
                                   text: feedItem.text,

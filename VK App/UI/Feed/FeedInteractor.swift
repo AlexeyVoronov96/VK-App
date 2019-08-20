@@ -18,6 +18,9 @@ class FeedInteractor: FeedBusinessLogic {
     var presenter: FeedPresentationLogic?
     var service: FeedService?
     
+    private var revealedPostIds: [Int] = []
+    private var feedResponse: FeedResponse?
+    
     func makeRequest(request: Feed.Model.Request.RequestType) {
         if service == nil {
             service = FeedService()
@@ -26,12 +29,19 @@ class FeedInteractor: FeedBusinessLogic {
         switch request {
         case .getNewsFeed:
             networkService.getData(with: .getFeed, type: FeedResponseWrapped.self) { [weak self] (feedResponse, error) in
-                    guard let feedResponse = feedResponse else {
-                        return
-                    }
-                    self?.presenter?.presentData(response: .present(feed: feedResponse.response))
+                self?.feedResponse = feedResponse?.response
+                self?.revealedPostIds.removeAll()
+                self?.presentFeed()
             }
+            
+        case let .revealPostIds(postId):
+            revealedPostIds.append(postId)
+            presentFeed()
         }
     }
     
+    private func presentFeed() {
+        guard let feedResponse = feedResponse else { return }
+        presenter?.presentData(response: .present(feed: feedResponse, revealedPostIds: revealedPostIds))
+    }
 }
