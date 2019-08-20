@@ -13,7 +13,7 @@ protocol FeedCellViewModel {
     var name: String { get }
     var date: String { get }
     var text: String? { get }
-    var photoAttachement: FeedCellPhotoAttachementViewModel? { get }
+    var photoAttachements: [FeedCellPhotoAttachementViewModel] { get }
     var likes: String? { get }
     var comments: String? { get }
     var shares: String? { get }

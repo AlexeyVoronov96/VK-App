@@ -20,6 +20,7 @@ final class FeedCell: UITableViewCell {
     
     private let cardView: UIView = {
         let view = UIView()
+        view.backgroundColor = UIColor.white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -69,6 +70,8 @@ final class FeedCell: UITableViewCell {
         button.setTitle("Показать полностью...", for: .normal)
         return button
     }()
+    
+    private let galleryCollectionView = GalleryCollectionView()
     
     private let postImageView: UIImageView = {
         let imageView = UIImageView()
@@ -174,6 +177,17 @@ final class FeedCell: UITableViewCell {
         postImageView.image = nil
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        cardView.layer.shadowColor = UIColor.black.cgColor
+        cardView.layer.shadowOffset = .zero
+        cardView.layer.shadowOpacity = 0.15
+        cardView.layer.shadowRadius = 5
+        cardView.layer.shouldRasterize = true
+        cardView.layer.cornerRadius = 10
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -199,8 +213,8 @@ final class FeedCell: UITableViewCell {
     private func overlayFirstLayer() {
         addSubview(cardView)
         
-        cardView.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
-        cardView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        cardView.topAnchor.constraint(equalTo: topAnchor, constant: 8).isActive = true
+        cardView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -8).isActive = true
         cardView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 8).isActive = true
         cardView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -8).isActive = true
     }
@@ -215,6 +229,7 @@ final class FeedCell: UITableViewCell {
         
         cardView.addSubview(postTextLabel)
         cardView.addSubview(postImageView)
+        cardView.addSubview(galleryCollectionView)
         cardView.addSubview(moreTextButton)
         
         cardView.addSubview(bottomView)
@@ -244,7 +259,7 @@ final class FeedCell: UITableViewCell {
     
     private func overlayBottomView() {
         bottomView.addSubview(likesView)
-        likesView.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor).isActive = true
+        likesView.leadingAnchor.constraint(equalTo: bottomView.leadingAnchor, constant: 8).isActive = true
         likesView.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
         likesView.heightAnchor.constraint(equalTo: bottomView.heightAnchor).isActive = true
         
@@ -259,7 +274,7 @@ final class FeedCell: UITableViewCell {
         sharesView.heightAnchor.constraint(equalTo: bottomView.heightAnchor).isActive = true
         
         bottomView.addSubview(viewsView)
-        viewsView.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor).isActive = true
+        viewsView.trailingAnchor.constraint(equalTo: bottomView.trailingAnchor, constant: -8).isActive = true
         viewsView.centerYAnchor.constraint(equalTo: bottomView.centerYAnchor).isActive = true
         viewsView.heightAnchor.constraint(equalTo: bottomView.heightAnchor).isActive = true
     }
@@ -304,11 +319,22 @@ final class FeedCell: UITableViewCell {
         
         moreTextButton.frame = viewModel.sizes.moreTextButtonFrame
         
-        if let imageUrlString = viewModel.photoAttachement?.photoURLString {
+        if let imageUrlString = viewModel.photoAttachements.first?.photoURLString,
+            viewModel.photoAttachements.count == 1 {
             postImageView.kf.indicatorType = .activity
             postImageView.kf.setImage(with: URL(string:  imageUrlString))
+            postImageView.isHidden = false
+            galleryCollectionView.isHidden = true
+            postImageView.frame = viewModel.sizes.attachementFrame
+        } else if viewModel.photoAttachements.count > 1 {
+            galleryCollectionView.photos = viewModel.photoAttachements
+            postImageView.isHidden = true
+            galleryCollectionView.isHidden = false
+            galleryCollectionView.frame = viewModel.sizes.attachementFrame
+        } else {
+            postImageView.isHidden = true
+            galleryCollectionView.isHidden = true
         }
-        postImageView.frame = viewModel.sizes.attachementFrame
         
         likesLabel.text = viewModel.likes
         commentsLabel.text = viewModel.comments
