@@ -6,7 +6,6 @@
 //  Copyright © 2019 Алексей Воронов. All rights reserved.
 //
 
-import Kingfisher
 import UIKit
 
 protocol FeedCellViewModel {
@@ -26,6 +25,7 @@ protocol FeedCellViewModel {
 protocol FeedCellSizes {
     var postLabelFrame: CGRect { get }
     var attachementFrame: CGRect { get }
+    var moreTextButtonFrame: CGRect { get }
     var bottomViewFrame: CGRect { get }
     
     var totalHeight: CGFloat { get }
