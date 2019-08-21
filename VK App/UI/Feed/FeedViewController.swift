@@ -66,6 +66,8 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseId)
         
         interactor?.makeRequest(request: .getNewsFeed)
+//        tableView.backgroundColor = .clear
+//        view.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
     }
     
     func displayData(viewModel: Feed.Model.ViewModel.ViewModelData) {
