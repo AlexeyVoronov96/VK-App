@@ -16,6 +16,7 @@ struct FeedResponse: Decodable {
     let items: FeedItems
     let profiles: Profiles
     let groups: Groups
+    let nextFrom: String?
 }
 
 typealias FeedItems = [FeedItem]

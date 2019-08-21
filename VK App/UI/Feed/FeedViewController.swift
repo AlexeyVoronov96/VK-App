@@ -17,6 +17,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     var router: (NSObjectProtocol & FeedRoutingLogic)?
     
     private var titleView: TitleView = TitleView()
+    private var footerView = FooterView()
     private var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
@@ -26,6 +27,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     private var feedViewModel: FeedViewModel = FeedViewModel(cells: []) {
         didSet {
             DispatchQueue.main.async { [weak self] in
+                self?.footerView.set(title: "\(self?.feedViewModel.cells.count ?? 0) записей")
                 self?.tableView.reloadData()
                 self?.refreshControl.endRefreshing()
             }
@@ -80,7 +82,10 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         
         tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseId)
         
+        tableView.tableFooterView = footerView
+        
         interactor?.makeRequest(request: .getNewsFeed)
+        interactor?.makeRequest(request: .getUser)
     }
     
     func displayData(viewModel: Feed.Model.ViewModel.ViewModelData) {
@@ -92,6 +97,12 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
             DispatchQueue.main.async { [weak self] in
                 self?.titleView.set(userViewModel: user)
             }
+            
+        case let .displayMore(feed):
+            feedViewModel.cells += feed.cells
+            
+        case .displayFooterLoader:
+            footerView.showLoader()
         }
     }
     
@@ -129,6 +140,14 @@ extension FeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         let cellViewModel = feedViewModel.cells[indexPath.row]
         return cellViewModel.sizes.totalHeight
+    }
+}
+
+extension FeedViewController: UIScrollViewDelegate {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        if scrollView.contentOffset.y > scrollView.contentSize.height / 1.1 {
+            interactor?.makeRequest(request: .getNextBatch)
+        }
     }
 }
 

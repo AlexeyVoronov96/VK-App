@@ -54,11 +54,17 @@ final class FeedCell: UITableViewCell {
     }()
     
     // MARK: - Post content elements
-    private let postTextLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.font = Constants.postLabelFont
-        return label
+    private let postTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = Constants.postLabelFont
+        textView.isSelectable = true
+        textView.isScrollEnabled = false
+        textView.isUserInteractionEnabled = true
+        textView.isEditable = false
+        let padding = textView.textContainer.lineFragmentPadding
+        textView.textContainerInset = UIEdgeInsets(top: 0, left: -padding, bottom: 0, right: -padding)
+        textView.dataDetectorTypes = .all
+        return textView
     }()
     
     private let moreTextButton: UIButton = {
@@ -227,7 +233,7 @@ final class FeedCell: UITableViewCell {
         topView.trailingAnchor.constraint(equalTo: cardView.trailingAnchor, constant: -8).isActive = true
         topView.heightAnchor.constraint(equalToConstant: Constants.topViewHeight).isActive = true
         
-        cardView.addSubview(postTextLabel)
+        cardView.addSubview(postTextView)
         cardView.addSubview(postImageView)
         cardView.addSubview(galleryCollectionView)
         cardView.addSubview(moreTextButton)
@@ -314,8 +320,8 @@ final class FeedCell: UITableViewCell {
         resourceNameLabel.text = viewModel.name
         dateLabel.text = viewModel.date
         
-        postTextLabel.text = viewModel.text
-        postTextLabel.frame = viewModel.sizes.postLabelFrame
+        postTextView.text = viewModel.text
+        postTextView.frame = viewModel.sizes.postLabelFrame
         
         moreTextButton.frame = viewModel.sizes.moreTextButtonFrame
         
