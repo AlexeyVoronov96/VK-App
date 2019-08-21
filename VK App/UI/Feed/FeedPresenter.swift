@@ -36,6 +36,16 @@ class FeedPresenter: FeedPresentationLogic {
         case let .presentUser(user):
             let userViewModel = UserViewModel(photoUrl: user.photo100)
             viewController?.displayData(viewModel: .displayUser(user: userViewModel))
+            
+        case let .presentMore(feed, revealedPostIds):
+            let cells = feed.items.map { (feedItem) in
+                setupCellViewModel(from: feedItem, profiles: feed.profiles, groups: feed.groups, revealedPostIds: revealedPostIds)
+            }
+            let feedViewModel = FeedViewModel(cells: cells)
+            viewController?.displayData(viewModel: .displayMore(feed: feedViewModel))
+            
+        case .presentFooterLoader:
+            viewController?.displayData(viewModel: .displayFooterLoader)
         }
     }
     
@@ -51,17 +61,36 @@ class FeedPresenter: FeedPresentationLogic {
         
         let sizes = cellLayoutCalculator.calculateSizes(postText: feedItem.text, photoAttachments: photoAttachments, isFullSized: isFullSized)
         
+        let postText = feedItem.text?.replacingOccurrences(of: "<br>", with: "\n")
+        
         return FeedViewModel.Cell(postId: feedItem.postId,
                                   iconURLString: profile?.photo ?? "",
                                   name: profile?.name ?? "",
                                   date: dateString,
-                                  text: feedItem.text,
-                                  likes: String(feedItem.likes?.count ?? 0),
-                                  comments: String(feedItem.comments?.count ?? 0),
-                                  shares: String(feedItem.reposts?.count ?? 0),
-                                  views: String(feedItem.views?.count ?? 0),
+                                  text: postText,
+                                  likes: formattedCounter(feedItem.likes?.count),
+                                  comments: formattedCounter(feedItem.comments?.count),
+                                  shares: formattedCounter(feedItem.reposts?.count),
+                                  views: formattedCounter(feedItem.views?.count),
                                   photoAttachements: photoAttachments,
                                   sizes: sizes)
+    }
+    
+    private func formattedCounter(_ counter: Int?) -> String? {
+        guard let counter = counter,
+            counter > 0 else {
+                return nil
+        }
+        
+        var counterString = String(counter)
+        
+        if 4...6 ~= counterString.count {
+            counterString = String(counterString.dropLast(3)) + "K"
+        } else if counterString.count > 6 {
+            counterString = String(counterString.dropLast(6)) + "M"
+        }
+        
+        return counterString
     }
     
     private func setupProfile(for sourceId: Int, from profiles: Profiles, and groups: Groups) -> ProfileRepresantable? {

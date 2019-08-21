@@ -29,7 +29,7 @@ class FeedInteractor: FeedBusinessLogic {
         
         switch request {
         case .getNewsFeed:
-            networkService.getData(with: .getFeed, type: FeedResponseWrapped.self) { [weak self] (feedResponse, error) in
+            networkService.getData(with: .getFeed(nextFrom: nil), type: FeedResponseWrapped.self) { [weak self] (feedResponse, error) in
                 self?.feedResponse = feedResponse?.response
                 self?.revealedPostIds.removeAll()
                 self?.presentFeed()
@@ -44,12 +44,25 @@ class FeedInteractor: FeedBusinessLogic {
                 self?.userResponse = user?.response.first
                 self?.presentUserAvatar()
             }
+            
+        case .getNextBatch:
+            guard let nextFrom = feedResponse?.nextFrom else { return }
+            presenter?.presentData(response: .presentFooterLoader)
+            networkService.getData(with: .getFeed(nextFrom: nextFrom), type: FeedResponseWrapped.self) { [weak self] (feed, error) in
+                self?.feedResponse = feed?.response
+                self?.presentMoreFeed()
+            }
         }
     }
     
     private func presentFeed() {
         guard let feedResponse = feedResponse else { return }
         presenter?.presentData(response: .present(feed: feedResponse, revealedPostIds: revealedPostIds))
+    }
+    
+    private func presentMoreFeed() {
+        guard let feedResponse = feedResponse else { return }
+        presenter?.presentData(response: .presentMore(feed: feedResponse, revealedPostIds: revealedPostIds))
     }
     
     private func presentUserAvatar() {

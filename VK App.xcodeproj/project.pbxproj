@@ -18,6 +18,7 @@
 		AB5DA88F230877AF008CF6DB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AB5DA88D230877AF008CF6DB /* LaunchScreen.storyboard */; };
 		AB613DC1230D8C2200BEED75 /* TitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB613DC0230D8C2200BEED75 /* TitleView.swift */; };
 		AB613DC5230D93B600BEED75 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB613DC4230D93B600BEED75 /* User.swift */; };
+		AB613DC8230DAC2B00BEED75 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB613DC7230DAC2B00BEED75 /* FooterView.swift */; };
 		ABDBED0423094633002BAF54 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED0323094633002BAF54 /* AuthenticationService.swift */; };
 		ABDBED06230948FA002BAF54 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED05230948FA002BAF54 /* AuthenticationViewController.swift */; };
 		ABDBED082309490F002BAF54 /* Authentication.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ABDBED072309490F002BAF54 /* Authentication.storyboard */; };
@@ -53,6 +54,7 @@
 		AB5DA890230877AF008CF6DB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB613DC0230D8C2200BEED75 /* TitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleView.swift; sourceTree = "<group>"; };
 		AB613DC4230D93B600BEED75 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		AB613DC7230DAC2B00BEED75 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		ABDBED0323094633002BAF54 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		ABDBED05230948FA002BAF54 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		ABDBED072309490F002BAF54 /* Authentication.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Authentication.storyboard; sourceTree = "<group>"; };
@@ -141,6 +143,14 @@
 			path = "Title view";
 			sourceTree = "<group>";
 		};
+		AB613DC6230DAC1600BEED75 /* Footer view */ = {
+			isa = PBXGroup;
+			children = (
+				AB613DC7230DAC2B00BEED75 /* FooterView.swift */,
+			);
+			path = "Footer view";
+			sourceTree = "<group>";
+		};
 		ABDBED0F2309572B002BAF54 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,6 +163,7 @@
 		ABDBED1023095743002BAF54 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				AB613DC6230DAC1600BEED75 /* Footer view */,
 				AB613DBF230D8C0A00BEED75 /* Title view */,
 				AB2E856E230C4EEB00E2FF64 /* Gallery */,
 				ABF3D2DA2309B45600C2A2EE /* Cell */,
@@ -377,6 +388,7 @@
 				ABF3D2D52309AFDC00C2A2EE /* FeedViewController.swift in Sources */,
 				AB5DA885230877AD008CF6DB /* AppDelegate.swift in Sources */,
 				AB613DC5230D93B600BEED75 /* User.swift in Sources */,
+				AB613DC8230DAC2B00BEED75 /* FooterView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

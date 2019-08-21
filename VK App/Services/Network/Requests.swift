@@ -10,7 +10,7 @@ import Foundation
 import VK_ios_sdk
 
 enum Requests {
-    case getFeed
+    case getFeed(nextFrom: String?)
     case getUser
     
     var host: String {
@@ -29,12 +29,18 @@ enum Requests {
     
     var params: [String: String] {
         switch self {
-        case .getFeed:
-            return [
+        case let .getFeed(nextFrom):
+            var params = [
                 "filters": "post,photo",
                 "access_token": VKSdk.accessToken()?.accessToken ?? "",
                 "v": "5.101"
             ]
+            
+            if let nextFrom = nextFrom {
+                params["start_from"] = nextFrom
+            }
+            
+            return params
             
         case .getUser:
             return [
