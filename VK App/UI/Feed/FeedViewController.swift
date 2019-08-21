@@ -16,10 +16,18 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     var interactor: FeedBusinessLogic?
     var router: (NSObjectProtocol & FeedRoutingLogic)?
     
+    private var titleView: TitleView = TitleView()
+    private var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        return refreshControl
+    }()
+    
     private var feedViewModel: FeedViewModel = FeedViewModel(cells: []) {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
             }
         }
     }
@@ -61,20 +69,40 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        tableView.refreshControl = refreshControl
+        
+        setupTopBar()
+        
         tableView.separatorStyle = .none
+        
+        let topInset: CGFloat = 8
+        tableView.contentInset.top = topInset
         
         tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseId)
         
         interactor?.makeRequest(request: .getNewsFeed)
-//        tableView.backgroundColor = .clear
-//        view.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
     }
     
     func displayData(viewModel: Feed.Model.ViewModel.ViewModelData) {
         switch viewModel {
         case let .display(feed):
             feedViewModel = feed
+            
+        case let .displayUser(user):
+            DispatchQueue.main.async { [weak self] in
+                self?.titleView.set(userViewModel: user)
+            }
         }
+    }
+    
+    private func setupTopBar() {
+        navigationController?.navigationBar.isTranslucent = true
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationItem.titleView = titleView
+    }
+    
+    @objc private func refresh(_ sender: UIRefreshControl) {
+        interactor?.makeRequest(request: .getNewsFeed)
     }
 }
 

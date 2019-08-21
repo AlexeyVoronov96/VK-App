@@ -32,6 +32,10 @@ class FeedPresenter: FeedPresentationLogic {
             }
             let feedViewModel = FeedViewModel(cells: cells)
             viewController?.displayData(viewModel: .display(feed: feedViewModel))
+            
+        case let .presentUser(user):
+            let userViewModel = UserViewModel(photoUrl: user.photo100)
+            viewController?.displayData(viewModel: .displayUser(user: userViewModel))
         }
     }
     
