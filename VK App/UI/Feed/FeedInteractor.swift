@@ -20,6 +20,7 @@ class FeedInteractor: FeedBusinessLogic {
     
     private var revealedPostIds: [Int] = []
     private var feedResponse: FeedResponse?
+    private var userResponse: UserResponse?
     
     func makeRequest(request: Feed.Model.Request.RequestType) {
         if service == nil {
@@ -37,11 +38,22 @@ class FeedInteractor: FeedBusinessLogic {
         case let .revealPostIds(postId):
             revealedPostIds.append(postId)
             presentFeed()
+            
+        case .getUser:
+            networkService.getData(with: .getUser, type: UserResponseWrapped.self) { [weak self] (user, error) in
+                self?.userResponse = user?.response.first
+                self?.presentUserAvatar()
+            }
         }
     }
     
     private func presentFeed() {
         guard let feedResponse = feedResponse else { return }
         presenter?.presentData(response: .present(feed: feedResponse, revealedPostIds: revealedPostIds))
+    }
+    
+    private func presentUserAvatar() {
+        guard let userResponse = userResponse else { return }
+        presenter?.presentData(response: .presentUser(user: userResponse))
     }
 }

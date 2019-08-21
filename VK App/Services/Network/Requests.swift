@@ -11,6 +11,7 @@ import VK_ios_sdk
 
 enum Requests {
     case getFeed
+    case getUser
     
     var host: String {
         return "api.vk.com"
@@ -20,6 +21,9 @@ enum Requests {
         switch self {
         case .getFeed:
             return "/method/newsfeed.get"
+            
+        case .getUser:
+            return "/method/users.get"
         }
     }
     
@@ -29,6 +33,14 @@ enum Requests {
             return [
                 "filters": "post,photo",
                 "access_token": VKSdk.accessToken()?.accessToken ?? "",
+                "v": "5.101"
+            ]
+            
+        case .getUser:
+            return [
+                "fields": "photo_100",
+                "access_token": VKSdk.accessToken()?.accessToken ?? "",
+                "user_ids": VKSdk.accessToken()?.userId ?? "",
                 "v": "5.101"
             ]
         }
