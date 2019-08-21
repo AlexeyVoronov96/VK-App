@@ -27,6 +27,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         didSet {
             DispatchQueue.main.async { [weak self] in
                 self?.tableView.reloadData()
+                self?.refreshControl.endRefreshing()
             }
         }
     }
@@ -83,7 +84,6 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         switch viewModel {
         case let .display(feed):
             feedViewModel = feed
-            refreshControl.endRefreshing()
             
         case let .displayUser(user):
             DispatchQueue.main.async { [weak self] in
