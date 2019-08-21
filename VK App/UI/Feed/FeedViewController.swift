@@ -75,6 +75,9 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         
         tableView.separatorStyle = .none
         
+        let topInset: CGFloat = 8
+        tableView.contentInset.top = topInset
+        
         tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseId)
         
         interactor?.makeRequest(request: .getNewsFeed)
