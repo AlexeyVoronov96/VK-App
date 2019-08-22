@@ -20,13 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        window = UIWindow()
+        window = UIWindow(frame: UIScreen.main.bounds)
         authenticationService = AuthenticationService()
         authenticationService.delegate = self
         
-        let authenticationViewController = AuthenticationViewController.loadFrom(storyboard: "Authentication")
-        
-        window?.rootViewController = authenticationViewController
+        window?.rootViewController = AuthenticationViewController()
         window?.makeKeyAndVisible()
         
         return true
@@ -44,8 +42,7 @@ extension AppDelegate: AuthenticationServiceDelegate {
     }
     
     func authenticationServiceSingIn() {
-        let feedViewController = FeedViewController.loadFrom(storyboard: "Feed")
-        window?.rootViewController = UINavigationController(rootViewController: feedViewController)
+        window?.rootViewController = UINavigationController(rootViewController: FeedViewController())
     }
     
     func authenticationServiceSighInFailed() {
