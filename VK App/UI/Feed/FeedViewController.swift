@@ -34,12 +34,24 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         }
     }
     
-    @IBOutlet private var tableView: UITableView!
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.separatorStyle = .none
+        let topInset: CGFloat = 8
+        tableView.contentInset.top = topInset
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
     
     // MARK: Object lifecycle
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        view.addSubview(tableView)
+        tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         setup()
     }
     
@@ -75,14 +87,18 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         
         setupTopBar()
         
-        tableView.separatorStyle = .none
         
-        let topInset: CGFloat = 8
-        tableView.contentInset.top = topInset
+        tableView.delegate = self
+        tableView.dataSource = self
+        
         
         tableView.register(FeedCell.self, forCellReuseIdentifier: FeedCell.reuseId)
         
         tableView.tableFooterView = footerView
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         interactor?.makeRequest(request: .getNewsFeed)
         interactor?.makeRequest(request: .getUser)
