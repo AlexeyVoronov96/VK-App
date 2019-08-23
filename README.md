@@ -3,4 +3,4 @@
 ### Info about API and SDK: https://vk.com/dev
 
 ## Feed Screen:
-![FeedScreen](https://github.com/AlexeyVoronov96/VK-App/blob/master/Screenshots/FeedScreen.png)
+![Feed](https://github.com/AlexeyVoronov96/VK-App/blob/master/Screenshots/Feed.png)
