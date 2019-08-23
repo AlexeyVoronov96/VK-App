@@ -34,7 +34,9 @@ class FeedPresenter: FeedPresentationLogic {
             viewController?.displayData(viewModel: .display(feed: feedViewModel))
             
         case let .presentUser(user):
-            let userViewModel = UserViewModel(photoUrl: user.photo100)
+            let fullName = "\(user.firstName ?? "") \(user.lastName ?? "")"
+            let userViewModel = UserViewModel(photoUrl: user.photo100,
+                                              fullName: fullName)
             viewController?.displayData(viewModel: .displayUser(user: userViewModel))
             
         case let .presentMore(feed, revealedPostIds):
