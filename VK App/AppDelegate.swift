@@ -42,10 +42,19 @@ extension AppDelegate: AuthenticationServiceDelegate {
     }
     
     func authenticationServiceSingIn() {
-        window?.rootViewController = UINavigationController(rootViewController: FeedViewController())
+        let feedViewController = FeedViewController()
+        feedViewController.delegate = self
+        window?.rootViewController = UINavigationController(rootViewController: feedViewController)
     }
     
     func authenticationServiceSighInFailed() {
+    }
+}
+
+extension AppDelegate: FeedViewControllerDelegate {
+    func logout() {
+        VKSdk.forceLogout()
+        window?.rootViewController = AuthenticationViewController()
     }
 }
 
