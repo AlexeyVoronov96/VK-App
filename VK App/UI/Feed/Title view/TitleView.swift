@@ -9,20 +9,27 @@
 import Kingfisher
 import UIKit
 
+protocol TitleViewDelegate: class {
+    func logout()
+}
+
 protocol TitleViewViewModel {
     var photoUrl: String? { get }
 }
 
 class TitleView: UIView {
+    weak var delegate: TitleViewDelegate!
+    
     override var intrinsicContentSize: CGSize {
         return UIView.layoutFittingExpandedSize
     }
     
-    private var userAvatarImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.clipsToBounds = true
-        return imageView
+    private var userAvatarButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(logout), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.clipsToBounds = true
+        return button
     }()
     
     override init(frame: CGRect) {
@@ -36,25 +43,29 @@ class TitleView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        userAvatarImageView.layer.masksToBounds = true
-        userAvatarImageView.layer.cornerRadius = userAvatarImageView.frame.width / 2
+        userAvatarButton.layer.masksToBounds = true
+        userAvatarButton.layer.cornerRadius = userAvatarButton.frame.width / 2
     }
     
     func set(userViewModel: TitleViewViewModel) {
-        userAvatarImageView.kf.indicatorType = .activity
-        userAvatarImageView.kf.setImage(with: URL(string: userViewModel.photoUrl ?? ""))
+        userAvatarButton.imageView?.kf.indicatorType = .activity
+        userAvatarButton.kf.setImage(with: URL(string: userViewModel.photoUrl ?? ""), for: .normal)
     }
     
     private func overlayView() {
-        addSubview(userAvatarImageView)
+        addSubview(userAvatarButton)
         
-        userAvatarImageView.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
-        userAvatarImageView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        userAvatarImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
-        userAvatarImageView.widthAnchor.constraint(equalTo: userAvatarImageView.heightAnchor).isActive = true
+        userAvatarButton.topAnchor.constraint(equalTo: topAnchor, constant: 4).isActive = true
+        userAvatarButton.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        userAvatarButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -4).isActive = true
+        userAvatarButton.widthAnchor.constraint(equalTo: userAvatarButton.heightAnchor).isActive = true
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func logout(_ sender: UIButton) {
+        delegate.logout()
     }
 }

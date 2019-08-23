@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol FeedViewControllerDelegate: class {
+    func logout()
+}
+
 protocol FeedDisplayLogic: class {
     func displayData(viewModel: Feed.Model.ViewModel.ViewModelData)
 }
@@ -15,6 +19,8 @@ protocol FeedDisplayLogic: class {
 class FeedViewController: UIViewController, FeedDisplayLogic {
     var interactor: FeedBusinessLogic?
     var router: (NSObjectProtocol & FeedRoutingLogic)?
+    
+    weak var delegate: FeedViewControllerDelegate!
     
     private var titleView: TitleView = TitleView()
     private var footerView = FooterView()
@@ -44,7 +50,6 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     }()
     
     // MARK: Object lifecycle
-    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         view.addSubview(tableView)
@@ -61,7 +66,6 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
     }
     
     // MARK: Setup
-    
     private func setup() {
         let viewController        = self
         let interactor            = FeedInteractor()
@@ -74,19 +78,13 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         router.viewController     = viewController
     }
     
-    // MARK: Routing
-    
-    
-    
     // MARK: View lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.refreshControl = refreshControl
         
         setupTopBar()
-        
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -126,6 +124,7 @@ class FeedViewController: UIViewController, FeedDisplayLogic {
         navigationController?.navigationBar.isTranslucent = true
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationItem.titleView = titleView
+        titleView.delegate = self
     }
     
     @objc private func refresh(_ sender: UIRefreshControl) {
@@ -172,5 +171,19 @@ extension FeedViewController: FeedCellDelegate {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         let cellViewModel = feedViewModel.cells[indexPath.row]
         interactor?.makeRequest(request: .revealPostIds(postId: cellViewModel.postId))
+    }
+}
+
+extension FeedViewController: TitleViewDelegate {
+    func logout() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        alertController.addAction(UIAlertAction(title: "Выйти", style: .destructive, handler: { [delegate] (_) in
+            delegate?.logout()
+        }))
+        
+        alertController.addAction(UIAlertAction(title: "Отмена", style: .cancel, handler: nil))
+        
+        present(alertController, animated: true, completion: nil)
     }
 }
