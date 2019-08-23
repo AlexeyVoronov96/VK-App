@@ -15,4 +15,6 @@ struct UserResponseWrapped: Decodable {
 typealias UserResponses = [UserResponse]
 struct UserResponse: Decodable {
     let photo100: String?
+    let firstName: String?
+    let lastName: String?
 }

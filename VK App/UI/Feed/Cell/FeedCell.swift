@@ -253,14 +253,12 @@ final class FeedCell: UITableViewCell {
         resourceNameLabel.topAnchor.constraint(equalTo: resourceIconImageView.topAnchor).isActive = true
         resourceNameLabel.leadingAnchor.constraint(equalTo: resourceIconImageView.trailingAnchor, constant: 8).isActive = true
         resourceNameLabel.trailingAnchor.constraint(equalTo: topView.trailingAnchor).isActive = true
-        resourceNameLabel.heightAnchor.constraint(equalToConstant: 21)
         
         topView.addSubview(dateLabel)
         dateLabel.leadingAnchor.constraint(equalTo: resourceNameLabel.leadingAnchor).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo: resourceNameLabel.trailingAnchor).isActive = true
         dateLabel.topAnchor.constraint(equalTo: resourceNameLabel.bottomAnchor, constant: 8).isActive = true
         dateLabel.bottomAnchor.constraint(equalTo: topView.bottomAnchor).isActive = true
-        dateLabel.heightAnchor.constraint(equalToConstant: 13)
     }
     
     private func overlayBottomView() {

@@ -40,6 +40,7 @@ enum Feed {
 
 struct UserViewModel: TitleViewViewModel {
     var photoUrl: String?
+    var fullName: String?
 }
 
 struct FeedViewModel {
