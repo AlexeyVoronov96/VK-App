@@ -13,7 +13,7 @@ protocol FeedBusinessLogic {
 }
 
 class FeedInteractor: FeedBusinessLogic {
-    private var networkService: NetworkServiceProtocol = NetworkService.shared
+    private var networkService = NetworkService<VKAPIRoute>()
     
     var presenter: FeedPresentationLogic?
     var service: FeedService?
@@ -29,10 +29,16 @@ class FeedInteractor: FeedBusinessLogic {
         
         switch request {
         case .getNewsFeed:
-            networkService.getData(with: .getFeed(nextFrom: nil), type: FeedResponseWrapped.self) { [weak self] (feedResponse, error) in
-                self?.feedResponse = feedResponse?.response
-                self?.revealedPostIds.removeAll()
-                self?.presentFeed()
+            networkService.getData(with: .getFeed(nextFrom: nil), type: FeedResponseWrapped.self) { [weak self] result in
+                switch result {
+                case let .success(responseModel):
+                    self?.feedResponse = responseModel.response
+                    self?.revealedPostIds.removeAll()
+                    self?.presentFeed()
+                    
+                case .failure:
+                    break
+                }
             }
             
         case let .revealPostIds(postId):
@@ -40,17 +46,29 @@ class FeedInteractor: FeedBusinessLogic {
             presentFeed()
             
         case .getUser:
-            networkService.getData(with: .getUser, type: UserResponseWrapped.self) { [weak self] (user, error) in
-                self?.userResponse = user?.response.first
-                self?.presentUserAvatar()
+            networkService.getData(with: .getUser, type: UserResponseWrapped.self) { [weak self] result in
+                switch result {
+                case let .success(responseModel):
+                    self?.userResponse = responseModel.response.first
+                    self?.presentUserAvatar()
+                    
+                case .failure:
+                    break
+                }
             }
             
         case .getNextBatch:
             guard let nextFrom = feedResponse?.nextFrom else { return }
             presenter?.presentData(response: .presentFooterLoader)
-            networkService.getData(with: .getFeed(nextFrom: nextFrom), type: FeedResponseWrapped.self) { [weak self] (feed, error) in
-                self?.feedResponse = feed?.response
-                self?.presentMoreFeed()
+            networkService.getData(with: .getFeed(nextFrom: nextFrom), type: FeedResponseWrapped.self) { [weak self] result in
+                switch result {
+                case let .success(responseModel):
+                    self?.feedResponse = responseModel.response
+                    self?.presentMoreFeed()
+                    
+                case .failure:
+                    break
+                }
             }
         }
     }

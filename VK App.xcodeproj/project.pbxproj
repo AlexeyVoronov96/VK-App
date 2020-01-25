@@ -22,7 +22,7 @@
 		ABDBED0423094633002BAF54 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED0323094633002BAF54 /* AuthenticationService.swift */; };
 		ABDBED06230948FA002BAF54 /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED05230948FA002BAF54 /* AuthenticationViewController.swift */; };
 		ABDBED17230957A2002BAF54 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED16230957A2002BAF54 /* NetworkService.swift */; };
-		ABDBED1923095918002BAF54 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED1823095918002BAF54 /* Requests.swift */; };
+		ABDBED1923095918002BAF54 /* VKAPIRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED1823095918002BAF54 /* VKAPIRoute.swift */; };
 		ABDBED1C230960B1002BAF54 /* Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBED1B230960B0002BAF54 /* Feed.swift */; };
 		ABF3D2D12309AFDC00C2A2EE /* FeedPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF3D2CA2309AFDC00C2A2EE /* FeedPresenter.swift */; };
 		ABF3D2D22309AFDC00C2A2EE /* FeedWorker.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF3D2CB2309AFDC00C2A2EE /* FeedWorker.swift */; };
@@ -31,6 +31,8 @@
 		ABF3D2D52309AFDC00C2A2EE /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF3D2CE2309AFDC00C2A2EE /* FeedViewController.swift */; };
 		ABF3D2D62309AFDC00C2A2EE /* FeedInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF3D2CF2309AFDC00C2A2EE /* FeedInteractor.swift */; };
 		ABF3D2DC2309B46D00C2A2EE /* FeedCellViewModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF3D2DB2309B46D00C2A2EE /* FeedCellViewModels.swift */; };
+		ABF4875923DCAE1900BB6D24 /* APIRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF4875823DCAE1900BB6D24 /* APIRoute.swift */; };
+		ABF4875B23DCB03600BB6D24 /* NetworkServiceErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF4875A23DCB03600BB6D24 /* NetworkServiceErrors.swift */; };
 		BB8A7AA73FBB0B92C60E0AAF /* Pods_VK_App.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F87D9298B4823FD58D488AA /* Pods_VK_App.framework */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +57,7 @@
 		ABDBED0323094633002BAF54 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		ABDBED05230948FA002BAF54 /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		ABDBED16230957A2002BAF54 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		ABDBED1823095918002BAF54 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		ABDBED1823095918002BAF54 /* VKAPIRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKAPIRoute.swift; sourceTree = "<group>"; };
 		ABDBED1B230960B0002BAF54 /* Feed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feed.swift; sourceTree = "<group>"; };
 		ABF3D2CA2309AFDC00C2A2EE /* FeedPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedPresenter.swift; sourceTree = "<group>"; };
 		ABF3D2CB2309AFDC00C2A2EE /* FeedWorker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedWorker.swift; sourceTree = "<group>"; };
@@ -64,6 +66,8 @@
 		ABF3D2CE2309AFDC00C2A2EE /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		ABF3D2CF2309AFDC00C2A2EE /* FeedInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedInteractor.swift; sourceTree = "<group>"; };
 		ABF3D2DB2309B46D00C2A2EE /* FeedCellViewModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModels.swift; sourceTree = "<group>"; };
+		ABF4875823DCAE1900BB6D24 /* APIRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRoute.swift; sourceTree = "<group>"; };
+		ABF4875A23DCB03600BB6D24 /* NetworkServiceErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkServiceErrors.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,8 +211,9 @@
 		ABDBED152309578F002BAF54 /* Network */ = {
 			isa = PBXGroup;
 			children = (
+				ABF4875523DCADE000BB6D24 /* Requests */,
 				ABDBED16230957A2002BAF54 /* NetworkService.swift */,
-				ABDBED1823095918002BAF54 /* Requests.swift */,
+				ABF4875A23DCB03600BB6D24 /* NetworkServiceErrors.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -230,6 +235,15 @@
 				AB18B380230B0E8600C447A6 /* FeedCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		ABF4875523DCADE000BB6D24 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				ABDBED1823095918002BAF54 /* VKAPIRoute.swift */,
+				ABF4875823DCAE1900BB6D24 /* APIRoute.swift */,
+			);
+			path = Requests;
 			sourceTree = "<group>";
 		};
 		F023CC9CF1E8830518E3F668 /* Pods */ = {
@@ -367,8 +381,10 @@
 				ABF3D2DC2309B46D00C2A2EE /* FeedCellViewModels.swift in Sources */,
 				ABDBED17230957A2002BAF54 /* NetworkService.swift in Sources */,
 				ABF3D2D22309AFDC00C2A2EE /* FeedWorker.swift in Sources */,
+				ABF4875923DCAE1900BB6D24 /* APIRoute.swift in Sources */,
+				ABF4875B23DCB03600BB6D24 /* NetworkServiceErrors.swift in Sources */,
 				AB18B37F230B053700C447A6 /* String + Height.swift in Sources */,
-				ABDBED1923095918002BAF54 /* Requests.swift in Sources */,
+				ABDBED1923095918002BAF54 /* VKAPIRoute.swift in Sources */,
 				AB2E8572230C4FAA00E2FF64 /* GalleryCollectionViewCell.swift in Sources */,
 				AB2E859D230C5ABC00E2FF64 /* RowLayout.swift in Sources */,
 				AB613DC1230D8C2200BEED75 /* TitleView.swift in Sources */,

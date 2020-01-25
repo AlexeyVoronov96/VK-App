@@ -9,7 +9,7 @@
 import Foundation
 import VK_ios_sdk
 
-enum Requests {
+enum VKAPIRoute: APIRoute {
     case getFeed(nextFrom: String?)
     case getUser
     

@@ -8,36 +8,41 @@
 
 import Foundation
 
-protocol NetworkServiceProtocol {
-    func getData<T: Decodable>(with request: Requests, type: T.Type, completion: @escaping (T?, Error?) -> Void)
-}
-
-final class NetworkService: NetworkServiceProtocol {
-    static let shared: NetworkService = NetworkService()
+final class NetworkService<Route: APIRoute> {
     
-    func getData<T: Decodable>(with request: Requests, type: T.Type, completion: @escaping (T?, Error?) -> Void) {
+    func getData<T: Decodable>(with request: Route, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
         guard let request = perform(request) else {
+            completion(.failure(NetworkServiceErrors.requestError))
             return
         }
         
         loadData(with: request) { [weak self] (data, error) in
-            if let error = error {
+            guard let self = self else {
+                completion(.failure(NetworkServiceErrors.internalInconsistency))
                 return
+            }
+            
+            if let error = error {
+                completion(.failure(error))
             }
             
             guard let data = data else {
+                completion(.failure(NetworkServiceErrors.dataNil))
                 return
             }
             
-            guard let parsedData = self?.parse(with: type, from: data) else {
-                return
+            let result = Result {
+                try self.parse(with: type, from: data)
             }
             
-            completion(parsedData, nil)
+            completion(result)
         }
     }
+}
+
+private extension NetworkService {
     
-    private func perform(_ request: Requests) -> URLRequest? {
+    private func perform(_ request: Route) -> URLRequest? {
         var components = URLComponents()
         
         components.scheme = "https"
@@ -60,11 +65,11 @@ final class NetworkService: NetworkServiceProtocol {
         }.resume()
     }
     
-    private func parse<T: Decodable>(with type: T.Type, from data: Data) -> T? {
+    private func parse<T: Decodable>(with type: T.Type, from data: Data) throws -> T {
         let jsonDecoder = JSONDecoder()
         
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         
-        return try? jsonDecoder.decode(type, from: data)
+        return try jsonDecoder.decode(type, from: data)
     }
 }
